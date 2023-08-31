@@ -1,12 +1,9 @@
-// C code to convert infix to postfix expression
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #define MAX_EXPR_SIZE 100
 
-// Function to return precedence of operators
 int precedence(char operator)
 {
 	switch (operator) {
@@ -23,16 +20,13 @@ int precedence(char operator)
 	}
 }
 
-// Function to check if the scanned character
-// is an operator
 int isOperator(char ch)
 {
 	return (ch == '+' || ch == '-' || ch == '*' || ch == '/'
 			|| ch == '^');
 }
 
-// Main functio to convert infix expression
-// to postfix expression
+
 char* infixToPostfix(char* infix)
 {
 	int i, j;
@@ -45,21 +39,17 @@ char* infixToPostfix(char* infix)
 		if (infix[i] == ' ' || infix[i] == '\t')
 			continue;
 		
-		// If the scanned character is operand
-		// add it to the postfix expression
+		
 		if (isalnum(infix[i])) {
 			postfix[j++] = infix[i];
 		}
 		
-		// if the scanned character is '('
-		// push it in the stack
+		
 		else if (infix[i] == '(') {
 			stack[++top] = infix[i];
 		}
 		
-		// if the scanned character is ')'
-		// pop the stack and add it to the
-		// output string until empty or '(' found
+		
 		else if (infix[i] == ')') {
 			while (top > -1 && stack[top] != '(')
 				postfix[j++] = stack[top--];
@@ -69,8 +59,7 @@ char* infixToPostfix(char* infix)
 				top--;
 		}
 		
-		// If the scanned character is an operator
-		// push it in the stack
+		
 		else if (isOperator(infix[i])) {
 			while (top > -1
 				&& precedence(stack[top])
@@ -80,7 +69,6 @@ char* infixToPostfix(char* infix)
 		}
 	}
 
-	// Pop all remaining elements from the stack
 	while (top > -1) {
 		if (stack[top] == '(') {
 			return "Invalid Expression";
@@ -91,12 +79,10 @@ char* infixToPostfix(char* infix)
 	return postfix;
 }
 
-// Driver code
 int main()
 {
 	char infix[MAX_EXPR_SIZE] = "a+b*(c^d-e)^(f+g*h)-i";
 	
-	// Function call
 	char* postfix = infixToPostfix(infix);
 	printf("%s\n", postfix);
 	free(postfix);
